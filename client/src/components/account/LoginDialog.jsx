@@ -6,6 +6,7 @@ import {addUser} from '../../service/api';
 import { qrCodeImage } from '../../constants/data';
 import{GoogleLogin} from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
+
 const Component=styled(Box)`
 display:flex;
 `

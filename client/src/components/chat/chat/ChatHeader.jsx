@@ -1,7 +1,10 @@
+import {useContext} from 'react';
 import React from 'react';
 
 import{Box,Typography,styled} from '@mui/material';
 import {Search,MoreVert}  from '@mui/icons-material';
+import { AccountContext } from '../../../context/AccountProvider';
+import { defaultProfilePicture } from '../../../constants/data';
 
 const Header =styled(Box)`
 height:44px;
@@ -33,20 +36,25 @@ color:rgb(0,0,0,0.6);
     color:#000;
  }
  `
-function ChatHeader({ person}) {
-  return (
-   <Header>
-    <Image src={person.picture} alt='dp'/>
-    <Box>
-        <Name>{person.name}</Name>
-        <Status>offline</Status>
-    </Box>
-    <RightContainer>
-        <Search />
-        <MoreVert />
-    </RightContainer>
-   </Header>
-  )
+ const ChatHeader = ({ person }) => {  
+
+    const url = person.picture || defaultProfilePicture;
+    
+    const { activeUsers } = useContext(AccountContext);
+
+    return (
+        <Header>
+            <Image src={url} alt="display picture" />     
+            <Box>
+                <Name>{person.name}</Name>
+                <Status>{activeUsers?.find(user => user.sub === person.sub) ? 'Online' : 'Offline'}</Status>    
+            </Box>   
+            <RightContainer>
+                <Search />
+                <MoreVert />    
+            </RightContainer> 
+        </Header>
+    )
 }
 
 export default ChatHeader;

@@ -1,17 +1,30 @@
-import { createContext } from "react";
-import { useState } from "react";
-
+import { createContext, useEffect } from "react";
+import { useState,useRef } from "react";
+import { io } from "socket.io-client";
 export const AccountContext=createContext(null);
 
 const AccountProvider=({children})=>{
     const[account,setAccount]=useState();
     const[person,setPerson]=useState({});
+    const[activeUsers,setActiveUsers]=useState([]);
+    const[newMessageFlag,setNewMessageFlag]=useState(false);
+
+    const socket =useRef();
+
+    useEffect(()=>{
+        socket.current=io('ws://localhost:9000')
+    },[])
     return(
         <AccountContext.Provider value={{
             account,
             setAccount,
             person,
-            setPerson
+            setPerson,
+            socket,
+            activeUsers,
+            setActiveUsers,
+            newMessageFlag,
+            setNewMessageFlag
 
         }}> {children}</AccountContext.Provider>
     )
